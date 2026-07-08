@@ -20,7 +20,11 @@ export function Hero() {
             Marketing Analyst — Harare
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-10 gap-y-4 md:gap-x-14">
+          <span className="float-slow pointer-events-none absolute right-10 top-24 hidden size-16 rounded-full border-2 border-accent/30 lg:block" />
+          <span className="float-slower pointer-events-none absolute bottom-24 right-24 hidden size-3 rounded-full bg-accent lg:block" />
+          <span className="float-slow pointer-events-none absolute right-40 top-48 hidden size-2 rounded-full bg-ink/30 lg:block" />
+
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-4 animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-700 md:gap-x-14">
             <div>
               <p className="text-3xl font-semibold tracking-tight md:text-4xl">
                 6<span className="text-accent">+</span>
@@ -46,9 +50,12 @@ export function Hero() {
             </span>
           </div>
 
-          <div>
+          <div className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both delay-150 duration-700">
             <h1 className="text-[clamp(4rem,14vw,9rem)] font-light leading-none tracking-tight">
-              Hello<span className="text-accent">.</span>
+              Hello
+              <span className="inline-block animate-bounce text-accent [animation-duration:2.5s]">
+                .
+              </span>
             </h1>
             <p className="mt-4 max-w-md text-base text-muted-foreground md:text-lg">
               — I&apos;m {site.shortName}, a{" "}
@@ -57,7 +64,7 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between animate-in fade-in fill-mode-both delay-300 duration-700">
             <a
               href="#about"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-accent"
