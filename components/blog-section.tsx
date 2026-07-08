@@ -1,11 +1,41 @@
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
-import { formatDate } from "@/lib/posts"
+import { formatDate, gradientForSlug, type Article } from "@/lib/posts"
 import { getAllPosts } from "@/lib/blog-data"
 import { Reveal } from "@/components/reveal"
 
+function Cover({ post }: { post: Article }) {
+  if (post.coverImage) {
+    return (
+      <div className="relative h-40 w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={post.coverImage}
+          alt=""
+          className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-ink">
+          {post.tag}
+        </span>
+      </div>
+    )
+  }
+  return (
+    <div
+      className="relative h-40 w-full"
+      style={{ background: gradientForSlug(post.slug) }}
+    >
+      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-ink">
+        {post.tag}
+      </span>
+    </div>
+  )
+}
+
 export async function BlogSection() {
   const posts = (await getAllPosts()).slice(0, 3)
+  if (posts.length === 0) return null
+
   return (
     <section id="blog" className="border-t border-line bg-card">
       <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
@@ -40,15 +70,7 @@ export async function BlogSection() {
                 href={`/blog/${post.slug}`}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-background transition-all duration-300 hover:-translate-y-1 hover:border-accent"
               >
-                <div
-                  className="relative h-40 w-full"
-                  style={{ background: post.art }}
-                >
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-ink">
-                    {post.tag}
-                  </span>
-                  <ArrowUpRight className="absolute bottom-4 right-4 size-5 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
+                <Cover post={post} />
                 <div className="flex flex-1 flex-col p-5">
                   <p className="text-xs text-muted-foreground">
                     {formatDate(post.date)} · {post.readTime}
@@ -59,6 +81,10 @@ export async function BlogSection() {
                   <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                     {post.excerpt}
                   </p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-0 transition-opacity group-hover:opacity-100">
+                    Read article
+                    <ArrowUpRight className="size-3.5" />
+                  </span>
                 </div>
               </Link>
             </Reveal>

@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import { getPostBySlug } from "@/lib/blog-data"
-import { blocksToText } from "@/lib/blocks"
 import { PostForm } from "@/components/admin/post-form"
 
 export const dynamic = "force-dynamic"
@@ -20,7 +19,7 @@ export default async function EditPostPage({
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-3xl px-5 py-12">
         <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="size-1.5 rounded-full bg-accent" />
+          <span className="h-px w-5 bg-accent" />
           Edit Post
         </p>
         <h1 className="mb-8 mt-3 truncate text-3xl font-medium tracking-tight">
@@ -29,13 +28,15 @@ export default async function EditPostPage({
         <PostForm
           mode="edit"
           initial={{
+            originalSlug: post.slug,
             slug: post.slug,
             title: post.title,
             excerpt: post.excerpt,
-            tag: post.tag,
+            category: post.category,
+            coverImage: post.coverImage ?? "",
             date: post.date,
-            readTime: post.readTime,
-            content: blocksToText(post.content),
+            status: "PUBLISHED",
+            content: post.html,
           }}
         />
       </div>
