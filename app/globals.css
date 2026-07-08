@@ -67,6 +67,32 @@ section[id] {
   }
 }
 
+/* Floating decorative elements */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float-slower {
+  animation: float 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-slow,
+  .float-slower {
+    animation: none;
+  }
+}
+
 /* Keyword marquee */
 @keyframes marquee {
   from {

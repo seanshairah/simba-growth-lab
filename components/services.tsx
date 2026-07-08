@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react"
 import { services, site } from "@/lib/content"
+import { Reveal } from "@/components/reveal"
 
 export function Services() {
   return (
@@ -23,10 +24,10 @@ export function Services() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {services.items.map((service) => (
+          {services.items.map((service, i) => (
+            <Reveal key={service.number} delay={i * 120} className="h-full">
             <article
-              key={service.number}
-              className="group flex flex-col justify-between rounded-2xl border border-line bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-ink hover:text-ink-foreground md:p-7"
+              className="group flex h-full flex-col justify-between rounded-2xl border border-line bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-ink hover:text-ink-foreground md:p-7"
             >
               <div>
                 <p className="text-xs font-semibold text-accent">
@@ -52,6 +53,7 @@ export function Services() {
                 </div>
               </div>
             </article>
+            </Reveal>
           ))}
         </div>
 
