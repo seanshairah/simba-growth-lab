@@ -8,6 +8,7 @@ import {
   LogOut,
   PenLine,
   Plus,
+  Settings,
   Trash2,
   TriangleAlert,
 } from "lucide-react"
@@ -70,10 +71,17 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-accent"
+              className="hidden items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-accent sm:inline-flex"
             >
               View blog
               <ArrowUpRight className="size-4" />
+            </Link>
+            <Link
+              href="/admin/settings"
+              className="inline-flex items-center gap-1 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
+            >
+              <Settings className="size-4" />
+              Settings
             </Link>
             <button
               type="button"

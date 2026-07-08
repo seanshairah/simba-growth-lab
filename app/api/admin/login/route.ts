@@ -2,13 +2,13 @@ import { NextResponse } from "next/server"
 import {
   AUTH_COOKIE,
   createSessionToken,
-  getAdminPassword,
+  verifyPassword,
 } from "@/lib/admin-auth"
 
 export async function POST(request: Request) {
   const { password } = await request.json().catch(() => ({ password: "" }))
 
-  if (!password || password !== getAdminPassword()) {
+  if (!(await verifyPassword(password))) {
     return NextResponse.json(
       { error: "Incorrect password. Please try again." },
       { status: 401 }
