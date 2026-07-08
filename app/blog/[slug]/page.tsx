@@ -2,16 +2,18 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
-import { posts as staticPosts, formatDate } from "@/lib/posts"
+import { formatDate, gradientForSlug } from "@/lib/posts"
 import { getAllPosts, getPostBySlug } from "@/lib/blog-data"
 import { site } from "@/lib/content"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 
 export const revalidate = 60
+export const dynamicParams = true
 
-export function generateStaticParams() {
-  return staticPosts.map((post) => ({ slug: post.slug }))
+export async function generateStaticParams() {
+  const posts = await getAllPosts()
+  return posts.map((post) => ({ slug: post.slug }))
 }
 
 export async function generateMetadata({
@@ -24,6 +26,9 @@ export async function generateMetadata({
   return {
     title: `${post.title} — ${site.shortName}`,
     description: post.excerpt,
+    openGraph: post.coverImage
+      ? { images: [{ url: post.coverImage }], title: post.title }
+      : { title: post.title },
   }
 }
 
@@ -45,7 +50,7 @@ export default async function BlogPostPage({
 
       <article>
         <header className="border-b border-line bg-card">
-          <div className="mx-auto max-w-3xl px-5 py-14 md:px-8 md:py-20">
+          <div className="mx-auto max-w-3xl px-5 py-14 md:px-8 md:py-16">
             <Link
               href="/blog"
               className="group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-accent"
@@ -53,7 +58,7 @@ export default async function BlogPostPage({
               <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
               All posts
             </Link>
-            <div className="mt-8 flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="mt-8 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
               <span className="rounded-full bg-accent px-3 py-1 font-medium uppercase tracking-wide text-white">
                 {post.tag}
               </span>
@@ -68,42 +73,31 @@ export default async function BlogPostPage({
               {post.excerpt}
             </p>
           </div>
-          <div className="h-2 w-full" style={{ background: post.art }} />
+
+          {post.coverImage ? (
+            <div className="mx-auto max-w-4xl px-5 md:px-8">
+              <div className="overflow-hidden rounded-2xl border border-line">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="max-h-[520px] w-full object-cover"
+                />
+              </div>
+            </div>
+          ) : (
+            <div
+              className="h-2 w-full"
+              style={{ background: gradientForSlug(post.slug) }}
+            />
+          )}
         </header>
 
         <div className="mx-auto max-w-3xl px-5 py-14 md:px-8 md:py-16">
-          <div className="space-y-6">
-            {post.content.map((block, i) => {
-              if (block.type === "h2") {
-                return (
-                  <h2
-                    key={i}
-                    className="pt-4 text-xl font-medium tracking-tight md:text-2xl"
-                  >
-                    {block.text}
-                  </h2>
-                )
-              }
-              if (block.type === "quote") {
-                return (
-                  <blockquote
-                    key={i}
-                    className="rounded-r-2xl border-l-4 border-accent bg-card px-6 py-5 text-lg font-medium leading-relaxed"
-                  >
-                    {block.text}
-                  </blockquote>
-                )
-              }
-              return (
-                <p
-                  key={i}
-                  className="text-base leading-relaxed text-foreground/85 md:text-lg"
-                >
-                  {block.text}
-                </p>
-              )
-            })}
-          </div>
+          <div
+            className="article-body"
+            dangerouslySetInnerHTML={{ __html: post.html }}
+          />
 
           <div className="mt-14 rounded-2xl bg-ink p-8 text-ink-foreground">
             <p className="text-xs uppercase tracking-[0.18em] text-ink-foreground/60">

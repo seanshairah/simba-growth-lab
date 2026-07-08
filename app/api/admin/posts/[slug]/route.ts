@@ -2,7 +2,6 @@ import { NextResponse } from "next/server"
 import { revalidatePath } from "next/cache"
 import { isAdminRequest } from "@/lib/admin-auth"
 import { getPostBySlug, deletePost, hasDatabase } from "@/lib/blog-data"
-import { blocksToText } from "@/lib/blocks"
 
 export async function GET(
   _request: Request,
@@ -16,7 +15,7 @@ export async function GET(
   if (!post) {
     return NextResponse.json({ error: "Post not found." }, { status: 404 })
   }
-  return NextResponse.json({ post, contentText: blocksToText(post.content) })
+  return NextResponse.json({ post })
 }
 
 export async function DELETE(

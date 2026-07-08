@@ -7,7 +7,7 @@ export default function NewPostPage() {
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-3xl px-5 py-12">
         <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="size-1.5 rounded-full bg-accent" />
+          <span className="h-px w-5 bg-accent" />
           New Post
         </p>
         <h1 className="mb-8 mt-3 text-3xl font-medium tracking-tight">

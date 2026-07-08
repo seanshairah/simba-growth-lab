@@ -1,18 +1,12 @@
 import "server-only"
 import { neon } from "@neondatabase/serverless"
-import { posts as staticPosts, type Post, type PostBlock } from "@/lib/posts"
-
-const ARTS = [
-  "linear-gradient(135deg, #e2590c 0%, #f5a45b 55%, #f1f0ec 100%)",
-  "linear-gradient(135deg, #161616 0%, #4a4a45 60%, #e2590c 100%)",
-  "linear-gradient(135deg, #f5a45b 0%, #e2590c 45%, #161616 100%)",
-]
-
-export function artForSlug(slug: string): string {
-  let h = 0
-  for (const c of slug) h = (h * 31 + c.charCodeAt(0)) | 0
-  return ARTS[Math.abs(h) % ARTS.length]
-}
+import {
+  type Article,
+  fallbackArticles,
+  tagFromCategory,
+  readTimeFromHtml,
+  excerptFromHtml,
+} from "@/lib/posts"
 
 function getSql() {
   const url = process.env.DATABASE_URL
@@ -28,125 +22,150 @@ export function hasDatabase(): boolean {
   return Boolean(process.env.DATABASE_URL)
 }
 
-async function ensureTable(sql: NonNullable<ReturnType<typeof getSql>>) {
-  await sql`
-    CREATE TABLE IF NOT EXISTS blog_posts (
-      slug TEXT PRIMARY KEY,
-      title TEXT NOT NULL,
-      excerpt TEXT NOT NULL DEFAULT '',
-      tag TEXT NOT NULL DEFAULT 'Notes',
-      read_time TEXT NOT NULL DEFAULT '3 min read',
-      date TEXT NOT NULL,
-      art TEXT NOT NULL DEFAULT '',
-      content JSONB NOT NULL DEFAULT '[]',
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-    )
-  `
+type Row = {
+  id: number
+  title: string
+  slug: string
+  excerpt: string | null
+  content: string | null
+  category: string | null
+  cover_image_url: string | null
+  status: string
+  published_at: string | null
+  created_at: string | null
 }
 
-type Row = {
+function toDateString(value: string | null): string {
+  if (!value) return new Date().toISOString().slice(0, 10)
+  return String(value).slice(0, 10)
+}
+
+function rowToArticle(row: Row): Article {
+  const html = row.content || ""
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    excerpt: (row.excerpt && row.excerpt.trim()) || excerptFromHtml(html),
+    html,
+    category: row.category || "",
+    tag: tagFromCategory(row.category || ""),
+    coverImage: row.cover_image_url || null,
+    date: toDateString(row.published_at || row.created_at),
+    readTime: readTimeFromHtml(html),
+  }
+}
+
+/** All published articles, newest first. Falls back to static content. */
+export async function getAllPosts(): Promise<Article[]> {
+  const sql = getSql()
+  if (sql) {
+    try {
+      const rows = (await sql`
+        SELECT id, title, slug, excerpt, content, category, cover_image_url,
+               status, published_at, created_at
+        FROM posts
+        WHERE status = 'PUBLISHED'
+        ORDER BY published_at DESC NULLS LAST, created_at DESC
+      `) as Row[]
+      if (rows.length > 0) return rows.map(rowToArticle)
+    } catch {
+      // fall through to fallback content
+    }
+  }
+  return fallbackArticles
+}
+
+export async function getPostBySlug(slug: string): Promise<Article | undefined> {
+  const sql = getSql()
+  if (sql) {
+    try {
+      const rows = (await sql`
+        SELECT id, title, slug, excerpt, content, category, cover_image_url,
+               status, published_at, created_at
+        FROM posts
+        WHERE slug = ${slug}
+        LIMIT 1
+      `) as Row[]
+      if (rows.length > 0) return rowToArticle(rows[0])
+      return undefined
+    } catch {
+      // fall through to fallback content
+    }
+  }
+  return fallbackArticles.find((a) => a.slug === slug)
+}
+
+/** All articles for the admin dashboard (any status). */
+export async function getAllPostsForAdmin(): Promise<Article[]> {
+  const sql = getSql()
+  if (!sql) return fallbackArticles
+  try {
+    const rows = (await sql`
+      SELECT id, title, slug, excerpt, content, category, cover_image_url,
+             status, published_at, created_at
+      FROM posts
+      ORDER BY published_at DESC NULLS LAST, created_at DESC
+    `) as Row[]
+    return rows.map(rowToArticle)
+  } catch {
+    return fallbackArticles
+  }
+}
+
+const AUTHOR_ID = 2 // Simbarashe Mukondo
+
+export type UpsertInput = {
   slug: string
   title: string
   excerpt: string
-  tag: string
-  read_time: string
+  content: string
+  category: string
+  coverImage: string | null
   date: string
-  art: string
-  content: PostBlock[]
+  status: string
+  originalSlug?: string
 }
 
-function rowToPost(row: Row): Post {
-  return {
-    slug: row.slug,
-    title: row.title,
-    excerpt: row.excerpt,
-    tag: row.tag,
-    readTime: row.read_time,
-    date: row.date,
-    art: row.art || artForSlug(row.slug),
-    content: row.content,
-  }
-}
-
-/** Seed the table with the starter posts if it is empty. */
-export async function seedIfEmpty(): Promise<void> {
-  const sql = getSql()
-  if (!sql) return
-  await ensureTable(sql)
-  const [{ count }] = (await sql`SELECT count(*)::int AS count FROM blog_posts`) as {
-    count: number
-  }[]
-  if (count > 0) return
-  for (const p of staticPosts) {
-    await sql`
-      INSERT INTO blog_posts (slug, title, excerpt, tag, read_time, date, art, content)
-      VALUES (${p.slug}, ${p.title}, ${p.excerpt}, ${p.tag}, ${p.readTime}, ${p.date}, ${p.art}, ${JSON.stringify(p.content)}::jsonb)
-      ON CONFLICT (slug) DO NOTHING
-    `
-  }
-}
-
-/** All posts: database when available and non-empty, otherwise the static starters. */
-export async function getAllPosts(): Promise<Post[]> {
-  const sql = getSql()
-  if (sql) {
-    try {
-      await ensureTable(sql)
-      const rows = (await sql`
-        SELECT slug, title, excerpt, tag, read_time, date, art, content
-        FROM blog_posts ORDER BY date DESC
-      `) as Row[]
-      if (rows.length > 0) return rows.map(rowToPost)
-    } catch {
-      // fall through to static content
-    }
-  }
-  return staticPosts
-}
-
-export async function getPostBySlug(slug: string): Promise<Post | undefined> {
-  const sql = getSql()
-  if (sql) {
-    try {
-      await ensureTable(sql)
-      const rows = (await sql`
-        SELECT slug, title, excerpt, tag, read_time, date, art, content
-        FROM blog_posts WHERE slug = ${slug} LIMIT 1
-      `) as Row[]
-      if (rows.length > 0) return rowToPost(rows[0])
-      const [{ count }] = (await sql`SELECT count(*)::int AS count FROM blog_posts`) as {
-        count: number
-      }[]
-      if (count > 0) return undefined
-    } catch {
-      // fall through to static content
-    }
-  }
-  return staticPosts.find((p) => p.slug === slug)
-}
-
-export async function upsertPost(post: Post): Promise<void> {
+export async function upsertPost(input: UpsertInput): Promise<void> {
   const sql = getSql()
   if (!sql) throw new Error("DATABASE_URL is not configured")
-  await ensureTable(sql)
-  await sql`
-    INSERT INTO blog_posts (slug, title, excerpt, tag, read_time, date, art, content, updated_at)
-    VALUES (${post.slug}, ${post.title}, ${post.excerpt}, ${post.tag}, ${post.readTime}, ${post.date}, ${post.art}, ${JSON.stringify(post.content)}::jsonb, now())
-    ON CONFLICT (slug) DO UPDATE SET
-      title = EXCLUDED.title,
-      excerpt = EXCLUDED.excerpt,
-      tag = EXCLUDED.tag,
-      read_time = EXCLUDED.read_time,
-      date = EXCLUDED.date,
-      art = EXCLUDED.art,
-      content = EXCLUDED.content,
-      updated_at = now()
-  `
+  const publishedAt = `${input.date}T12:00:00Z`
+  const targetSlug = input.originalSlug || input.slug
+
+  const existing = (await sql`SELECT id FROM posts WHERE slug = ${targetSlug} LIMIT 1`) as {
+    id: number
+  }[]
+
+  if (existing.length > 0) {
+    await sql`
+      UPDATE posts SET
+        title = ${input.title},
+        slug = ${input.slug},
+        excerpt = ${input.excerpt},
+        content = ${input.content},
+        category = ${input.category},
+        cover_image_url = ${input.coverImage},
+        status = ${input.status},
+        published_at = ${publishedAt},
+        updated_at = now()
+      WHERE id = ${existing[0].id}
+    `
+  } else {
+    await sql`
+      INSERT INTO posts
+        (title, slug, excerpt, content, category, cover_image_url, status,
+         published_at, author_id, created_at, updated_at)
+      VALUES
+        (${input.title}, ${input.slug}, ${input.excerpt}, ${input.content},
+         ${input.category}, ${input.coverImage}, ${input.status},
+         ${publishedAt}, ${AUTHOR_ID}, now(), now())
+    `
+  }
 }
 
 export async function deletePost(slug: string): Promise<void> {
   const sql = getSql()
   if (!sql) throw new Error("DATABASE_URL is not configured")
-  await ensureTable(sql)
-  await sql`DELETE FROM blog_posts WHERE slug = ${slug}`
+  await sql`DELETE FROM posts WHERE slug = ${slug}`
 }

@@ -11,11 +11,11 @@ import {
   Trash2,
   TriangleAlert,
 } from "lucide-react"
-import type { Post } from "@/lib/posts"
+import type { Article } from "@/lib/posts"
 
 export default function AdminDashboardPage() {
   const router = useRouter()
-  const [posts, setPosts] = useState<Post[] | null>(null)
+  const [posts, setPosts] = useState<Article[] | null>(null)
   const [hasDb, setHasDb] = useState(true)
   const [error, setError] = useState("")
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -91,7 +91,7 @@ export default function AdminDashboardPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-accent" />
+              <span className="h-px w-5 bg-accent" />
               Dashboard
             </p>
             <h1 className="mt-3 text-3xl font-medium tracking-tight">
@@ -111,8 +111,8 @@ export default function AdminDashboardPage() {
           <p className="mt-6 flex items-start gap-2 rounded-xl bg-accent-soft px-4 py-3 text-sm text-accent">
             <TriangleAlert className="mt-0.5 size-4 shrink-0" />
             No database connected — posts are read-only. Add the DATABASE_URL
-            environment variable (Neon integration) to this project in Vercel
-            to create and edit posts.
+            environment variable to this project in Vercel to create and edit
+            posts.
           </p>
         )}
 
