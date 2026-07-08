@@ -2,13 +2,16 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
-import { posts, getPost, formatDate } from "@/lib/posts"
+import { posts as staticPosts, formatDate } from "@/lib/posts"
+import { getAllPosts, getPostBySlug } from "@/lib/blog-data"
 import { site } from "@/lib/content"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 
+export const revalidate = 60
+
 export function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }))
+  return staticPosts.map((post) => ({ slug: post.slug }))
 }
 
 export async function generateMetadata({
@@ -16,7 +19,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const post = getPost((await params).slug)
+  const post = await getPostBySlug((await params).slug)
   if (!post) return {}
   return {
     title: `${post.title} — ${site.shortName}`,
@@ -29,10 +32,12 @@ export default async function BlogPostPage({
 }: {
   params: Promise<{ slug: string }>
 }) {
-  const post = getPost((await params).slug)
+  const post = await getPostBySlug((await params).slug)
   if (!post) notFound()
 
-  const others = posts.filter((p) => p.slug !== post.slug).slice(0, 2)
+  const others = (await getAllPosts())
+    .filter((p) => p.slug !== post.slug)
+    .slice(0, 2)
 
   return (
     <main>

@@ -71,7 +71,7 @@ export function Testimonials() {
                   t.style
                 )}
               >
-                <span className="absolute -top-2 left-1/2 size-4 -translate-x-1/2 rounded-full border-2 border-background bg-accent transition-transform duration-500 group-hover:scale-125" />
+                <span className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rounded-full border border-background bg-accent" />
                 <div>
                   <Quote className={cn("size-6", t.accentText)} />
                   <blockquote className="mt-4 text-sm leading-relaxed">

@@ -1,9 +1,11 @@
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
-import { posts, formatDate } from "@/lib/posts"
+import { formatDate } from "@/lib/posts"
+import { getAllPosts } from "@/lib/blog-data"
 import { Reveal } from "@/components/reveal"
 
-export function BlogSection() {
+export async function BlogSection() {
+  const posts = (await getAllPosts()).slice(0, 3)
   return (
     <section id="blog" className="border-t border-line bg-card">
       <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
