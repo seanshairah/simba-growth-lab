@@ -2,11 +2,12 @@ import { ArrowUpRight } from "lucide-react"
 import { site } from "@/lib/content"
 
 const links = [
-  { href: "#top", label: "Home" },
-  { href: "#about", label: "About Me" },
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Work" },
-  { href: "#contact", label: "Contact" },
+  { href: "/", label: "Home" },
+  { href: "/#about", label: "About Me" },
+  { href: "/#services", label: "Services" },
+  { href: "/#work", label: "Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#contact", label: "Contact" },
 ]
 
 export function SiteFooter() {
@@ -28,7 +29,7 @@ export function SiteFooter() {
           href={site.contraUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
+          className="inline-flex items-center gap-1 text-sm font-medium transition-colors hover:text-accent"
         >
           Hire me on Contra
           <ArrowUpRight className="size-4" />
