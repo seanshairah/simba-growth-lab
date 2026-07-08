@@ -41,7 +41,8 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {site.brand}. All rights reserved.
           </p>
           <p>
-            {site.name} — {site.role}
+            Made with <span className="text-accent">data & heart</span> in
+            Harare — {site.name}
           </p>
         </div>
       </div>

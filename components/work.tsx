@@ -10,9 +10,8 @@ export function Work() {
             Selected Work
           </p>
           <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
-            Explore my
-            <br />
-            analysis journey
+            Explore my{" "}
+            <em className="font-serif italic text-accent">analysis journey</em>
           </h2>
         </div>
         <p className="self-end text-lg leading-relaxed text-muted-foreground md:text-xl">

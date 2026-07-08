@@ -25,7 +25,10 @@ export default function BlogPage() {
           <h1 className="mt-4 text-4xl font-light tracking-tight md:text-6xl">
             Growth insights &
             <br />
-            honest numbers<span className="text-accent">.</span>
+            <em className="font-serif italic text-accent">
+              honest numbers
+            </em>
+            <span className="text-accent">.</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-muted-foreground md:text-lg">
             Notes from inside the data — on analytics, funnels and social

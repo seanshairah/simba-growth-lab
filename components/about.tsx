@@ -36,9 +36,9 @@ export function About() {
             About Me
           </p>
           <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
-            Clarity over
-            <br />
-            vanity metrics<span className="text-accent">.</span>
+            Clarity over{" "}
+            <em className="font-serif italic text-accent">vanity metrics</em>
+            <span className="text-accent">.</span>
           </h2>
 
           <div className="mt-10 -rotate-2 transition-transform duration-500 hover:rotate-0">
@@ -71,8 +71,17 @@ export function About() {
 
         <div className="flex flex-col justify-between gap-10">
           <Reveal delay={100}>
-            <p className="text-xl leading-relaxed text-foreground md:text-2xl">
+            <p className="font-serif text-2xl italic leading-snug md:text-3xl">
+              “Every number has a story.
+              <br />
+              My job is making it{" "}
+              <span className="text-accent">tell the truth</span>.”
+            </p>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
               {site.bio}
+            </p>
+            <p className="mt-4 font-serif text-2xl italic text-accent">
+              — Simba
             </p>
           </Reveal>
 

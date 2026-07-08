@@ -13,9 +13,8 @@ export function Services() {
               Services
             </p>
             <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
-              What I can do
-              <br />
-              for your brand
+              What I can do for{" "}
+              <em className="font-serif italic text-accent">your brand</em>
             </h2>
           </div>
           <p className="self-end text-lg leading-relaxed text-muted-foreground md:text-xl">

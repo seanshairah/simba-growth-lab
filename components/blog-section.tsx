@@ -15,8 +15,10 @@ export function BlogSection() {
                 Blog
               </p>
               <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
-                Growth insights
-                <br />& honest numbers
+                Growth insights &{" "}
+                <em className="font-serif italic text-accent">
+                  honest numbers
+                </em>
               </h2>
             </div>
             <Link
