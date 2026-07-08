@@ -20,8 +20,6 @@ export function Hero() {
             Marketing Analyst — Harare
           </p>
 
-          <span className="float-slower pointer-events-none absolute right-12 top-24 hidden size-16 rounded-full border border-accent/25 lg:block" />
-
           <div className="flex flex-wrap items-center gap-x-10 gap-y-4 animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-700 md:gap-x-14">
             <div>
               <p className="text-3xl font-semibold tracking-tight md:text-4xl">

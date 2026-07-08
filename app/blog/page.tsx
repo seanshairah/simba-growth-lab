@@ -23,7 +23,7 @@ export default async function BlogPage() {
       <section className="border-b border-line bg-card">
         <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-accent" />
+            <span className="h-px w-5 bg-accent" />
             Blog
           </p>
           <h1 className="mt-4 text-4xl font-light tracking-tight md:text-6xl">

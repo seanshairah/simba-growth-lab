@@ -13,7 +13,7 @@ export async function BlogSection() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                <span className="size-1.5 rounded-full bg-accent" />
+                <span className="h-px w-5 bg-accent" />
                 Blog
               </p>
               <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">

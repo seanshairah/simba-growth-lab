@@ -50,7 +50,7 @@ export function Testimonials() {
         <Reveal>
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-accent" />
+              <span className="h-px w-5 bg-accent" />
               Kind Words
             </p>
             <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
@@ -71,7 +71,6 @@ export function Testimonials() {
                   t.style
                 )}
               >
-                <span className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rounded-full border border-background bg-accent" />
                 <div>
                   <Quote className={cn("size-6", t.accentText)} />
                   <blockquote className="mt-4 text-sm leading-relaxed">

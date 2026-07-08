@@ -32,7 +32,7 @@ export function About() {
       <div className="grid grid-cols-1 gap-14 md:grid-cols-[1fr_1.4fr] md:gap-16">
         <Reveal>
           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-accent" />
+            <span className="h-px w-5 bg-accent" />
             About Me
           </p>
           <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
