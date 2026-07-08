@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
   ArrowUpRight,
+  Briefcase,
   LogOut,
   PenLine,
   Plus,
@@ -75,6 +76,13 @@ export default function AdminDashboardPage() {
             >
               View blog
               <ArrowUpRight className="size-4" />
+            </Link>
+            <Link
+              href="/admin/experience"
+              className="inline-flex items-center gap-1 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
+            >
+              <Briefcase className="size-4" />
+              Experience
             </Link>
             <Link
               href="/admin/settings"
