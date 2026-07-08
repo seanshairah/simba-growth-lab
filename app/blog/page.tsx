@@ -1,10 +1,13 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { ArrowUpRight } from "lucide-react"
-import { posts, formatDate } from "@/lib/posts"
+import { formatDate } from "@/lib/posts"
+import { getAllPosts } from "@/lib/blog-data"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Reveal } from "@/components/reveal"
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "Blog — Simbarashe Able Mukondo",
@@ -12,7 +15,8 @@ export const metadata: Metadata = {
     "Growth insights and honest numbers: marketing analytics, funnel audits and social media performance, written from the data up.",
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getAllPosts()
   return (
     <main>
       <SiteHeader />
