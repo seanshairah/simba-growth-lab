@@ -1,0 +1,77 @@
+import Image from "next/image"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { site } from "@/lib/content"
+
+export function Hero() {
+  return (
+    <section id="top" className="border-b border-line bg-card">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-[1fr_auto] md:items-stretch">
+        <div className="relative flex flex-col justify-between gap-10 px-5 pb-10 pt-12 md:px-8 md:pb-14 md:pt-16">
+          <p className="pointer-events-none absolute left-2 top-1/2 hidden -translate-y-1/2 -rotate-180 text-[11px] uppercase tracking-[0.2em] text-muted-foreground [writing-mode:vertical-rl] lg:block">
+            Marketing Analyst — Harare
+          </p>
+
+          <div className="flex flex-wrap gap-10 md:gap-14">
+            <div>
+              <p className="text-3xl font-semibold tracking-tight md:text-4xl">
+                6+
+              </p>
+              <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
+                Industries analysed
+              </p>
+            </div>
+            <div>
+              <p className="text-3xl font-semibold tracking-tight md:text-4xl">
+                3
+              </p>
+              <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
+                Core services
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h1 className="text-[clamp(4rem,14vw,9rem)] font-light leading-none tracking-tight">
+              Hello
+            </h1>
+            <p className="mt-4 max-w-md text-base text-muted-foreground md:text-lg">
+              — I&apos;m {site.shortName}, a{" "}
+              <span className="text-foreground">{site.role.toLowerCase()}</span>{" "}
+              turning complex digital data into profitable growth roadmaps.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <a
+              href="#about"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Scroll down
+              <ArrowDown className="size-4" />
+            </a>
+            <a
+              href={site.contraUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-sm font-medium underline-offset-4 hover:underline md:hidden"
+            >
+              Book a Call
+              <ArrowUpRight className="size-4" />
+            </a>
+          </div>
+        </div>
+
+        <div className="relative md:w-[380px] lg:w-[440px]">
+          <Image
+            src="/images/portrait-bw.jpg"
+            alt={`Black and white portrait of ${site.name}`}
+            width={960}
+            height={951}
+            priority
+            className="h-72 w-full object-cover object-top grayscale sm:h-96 md:h-full"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
