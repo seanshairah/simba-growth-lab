@@ -8,7 +8,7 @@ export function Cta() {
         <span className="float-slow pointer-events-none absolute -left-10 top-8 size-32 rounded-full bg-accent/15 blur-2xl" />
         <span className="float-slower pointer-events-none absolute -right-8 bottom-8 size-40 rounded-full bg-accent/10 blur-2xl" />
         <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-ink-foreground/60">
-          <span className="size-1.5 rounded-full bg-accent" />
+          <span className="h-px w-5 bg-accent/60" />
           Ready for work
         </p>
         <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-medium tracking-tight md:text-5xl">
