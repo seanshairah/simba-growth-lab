@@ -44,8 +44,9 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="overflow-hidden border-t border-line bg-background">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <section id="testimonials" className="relative overflow-hidden border-t border-line bg-background">
+      <span className="pointer-events-none absolute left-1/2 top-0 size-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl" />
+      <div className="relative mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <div className="text-center">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -53,7 +54,9 @@ export function Testimonials() {
               Kind Words
             </p>
             <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
-              Don&apos;t take my word for it<span className="text-accent">.</span>
+              Don&apos;t take{" "}
+              <em className="font-serif italic text-accent">my word</em> for it
+              <span className="text-accent">.</span>
             </h2>
           </div>
         </Reveal>

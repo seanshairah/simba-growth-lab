@@ -25,6 +25,7 @@
   --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -104,11 +105,47 @@ section[id] {
 }
 
 .marquee-track {
-  animation: marquee 28s linear infinite;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-band:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Outlined display text used in the ribbon marquee */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(245, 244, 240, 0.75);
+}
+
+/* Waving hand */
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30% {
+    transform: rotate(16deg);
+  }
+  20%,
+  40% {
+    transform: rotate(-8deg);
+  }
+}
+
+.wave-hand {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
+    animation: none;
+  }
+  .wave-hand {
     animation: none;
   }
 }

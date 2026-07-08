@@ -58,9 +58,16 @@ export function Hero() {
               </span>
             </h1>
             <p className="mt-4 max-w-md text-base text-muted-foreground md:text-lg">
-              — I&apos;m {site.shortName}, a{" "}
+              <span className="wave-hand" aria-hidden="true">
+                👋
+              </span>{" "}
+              I&apos;m {site.shortName} — friends call me Simba. A{" "}
               <span className="text-foreground">{site.role.toLowerCase()}</span>{" "}
-              turning complex digital data into profitable growth roadmaps.
+              turning complex digital data into{" "}
+              <em className="font-serif text-xl italic text-accent md:text-2xl">
+                profitable growth roadmaps
+              </em>
+              .
             </p>
           </div>
 
@@ -96,17 +103,27 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="overflow-hidden border-t border-line bg-ink py-3 text-ink-foreground">
-        <div className="marquee-track flex w-max items-center gap-8 pr-8">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span
-              key={`${item}-${i}`}
-              className="flex items-center gap-8 text-xs uppercase tracking-[0.2em]"
-            >
-              {item}
-              <span className="size-1.5 rounded-full bg-accent" />
-            </span>
-          ))}
+      <div className="relative overflow-hidden border-t border-line">
+        <div className="absolute inset-x-0 top-1/2 h-full -translate-y-1/2 rotate-[1.2deg] scale-x-105 bg-accent/90" />
+        <div className="marquee-band relative -rotate-[1.2deg] scale-x-105 bg-ink py-4 text-ink-foreground shadow-lg">
+          <div className="marquee-track flex w-max items-center">
+            {[...marqueeItems, ...marqueeItems].map((item, i) => (
+              <span key={`${item}-${i}`} className="flex items-center">
+                <span
+                  className={
+                    i % 2 === 0
+                      ? "whitespace-nowrap font-serif text-xl italic tracking-wide md:text-2xl"
+                      : "text-outline whitespace-nowrap text-xl font-semibold uppercase tracking-[0.14em] md:text-2xl"
+                  }
+                >
+                  {item}
+                </span>
+                <span className="mx-6 text-accent md:mx-8" aria-hidden="true">
+                  ✦
+                </span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
