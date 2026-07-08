@@ -2,6 +2,15 @@ import Image from "next/image"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { site } from "@/lib/content"
 
+const marqueeItems = [
+  "Marketing Analytics",
+  "Growth Strategy",
+  "Funnel Audits",
+  "Competitive Intelligence",
+  "Social Performance",
+  "Consumer Behaviour",
+]
+
 export function Hero() {
   return (
     <section id="top" className="border-b border-line bg-card">
@@ -11,10 +20,10 @@ export function Hero() {
             Marketing Analyst — Harare
           </p>
 
-          <div className="flex flex-wrap gap-10 md:gap-14">
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-4 md:gap-x-14">
             <div>
               <p className="text-3xl font-semibold tracking-tight md:text-4xl">
-                6+
+                6<span className="text-accent">+</span>
               </p>
               <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
                 Industries analysed
@@ -28,11 +37,18 @@ export function Hero() {
                 Core services
               </p>
             </div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-background px-3 py-1.5 text-xs font-medium">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent" />
+              </span>
+              Available for new projects
+            </span>
           </div>
 
           <div>
             <h1 className="text-[clamp(4rem,14vw,9rem)] font-light leading-none tracking-tight">
-              Hello
+              Hello<span className="text-accent">.</span>
             </h1>
             <p className="mt-4 max-w-md text-base text-muted-foreground md:text-lg">
               — I&apos;m {site.shortName}, a{" "}
@@ -44,7 +60,7 @@ export function Hero() {
           <div className="flex items-center justify-between">
             <a
               href="#about"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-accent"
             >
               Scroll down
               <ArrowDown className="size-4" />
@@ -70,6 +86,20 @@ export function Hero() {
             priority
             className="h-72 w-full object-cover object-top grayscale sm:h-96 md:h-full"
           />
+        </div>
+      </div>
+
+      <div className="overflow-hidden border-t border-line bg-ink py-3 text-ink-foreground">
+        <div className="marquee-track flex w-max items-center gap-8 pr-8">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span
+              key={`${item}-${i}`}
+              className="flex items-center gap-8 text-xs uppercase tracking-[0.2em]"
+            >
+              {item}
+              <span className="size-1.5 rounded-full bg-accent" />
+            </span>
+          ))}
         </div>
       </div>
     </section>

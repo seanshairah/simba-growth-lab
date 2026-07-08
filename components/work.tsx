@@ -6,7 +6,7 @@ export function Work() {
       <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
         <div>
           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-ink" />
+            <span className="size-1.5 rounded-full bg-accent" />
             Selected Work
           </p>
           <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
@@ -26,10 +26,10 @@ export function Work() {
         {work.map((item) => (
           <article
             key={item.title}
-            className="grid grid-cols-1 gap-3 py-6 md:grid-cols-[1.2fr_1fr_auto] md:items-center md:gap-8"
+            className="group grid grid-cols-1 gap-3 py-6 transition-colors md:grid-cols-[1.2fr_1fr_auto] md:items-center md:gap-8"
           >
             <div>
-              <h3 className="text-base font-medium tracking-tight md:text-lg">
+              <h3 className="text-base font-medium tracking-tight transition-colors group-hover:text-accent md:text-lg">
                 {item.title}
               </h3>
               <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">

@@ -6,10 +6,11 @@ import { ArrowUpRight, Menu, X } from "lucide-react"
 import { site } from "@/lib/content"
 
 const links = [
-  { href: "#about", label: "About Me" },
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Work" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About Me" },
+  { href: "/#services", label: "Services" },
+  { href: "/#work", label: "Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#contact", label: "Contact" },
 ]
 
 export function SiteHeader() {
@@ -18,8 +19,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
-        <Link href="#top" className="flex items-center gap-2">
-          <span className="flex size-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-ink-foreground">
+        <Link href="/" className="group flex items-center gap-2">
+          <span className="flex size-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-ink-foreground transition-colors group-hover:bg-accent">
             SG
           </span>
           <span className="text-sm font-semibold tracking-tight">
@@ -29,13 +30,13 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-sm text-muted-foreground transition-colors hover:text-accent"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -44,7 +45,7 @@ export function SiteHeader() {
             href={site.contraUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-1 rounded-full bg-ink px-4 py-2 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-85 md:inline-flex"
+            className="hidden items-center gap-1 rounded-full bg-ink px-4 py-2 text-sm font-medium text-ink-foreground transition-colors hover:bg-accent md:inline-flex"
           >
             Book a Call
             <ArrowUpRight className="size-4" />
@@ -64,14 +65,14 @@ export function SiteHeader() {
         <nav className="border-t border-line bg-background px-5 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="text-sm text-muted-foreground"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <a
               href={site.contraUrl}

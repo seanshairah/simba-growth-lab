@@ -9,6 +9,8 @@
   --line: #e2e0d9;
   --ink: #161616;
   --ink-foreground: #f5f4f0;
+  --accent: #e2590c;
+  --accent-soft: #fbe9dd;
 }
 
 @theme inline {
@@ -19,6 +21,8 @@
   --color-line: var(--line);
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
 }
@@ -39,6 +43,46 @@ section[id] {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--ink-foreground);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Scroll reveal (driven by the <Reveal> client component) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Keyword marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }

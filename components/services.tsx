@@ -8,7 +8,7 @@ export function Services() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
           <div>
             <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-ink" />
+              <span className="size-1.5 rounded-full bg-accent" />
               Services
             </p>
             <h2 className="mt-4 text-3xl font-medium tracking-tight md:text-4xl">
@@ -26,10 +26,10 @@ export function Services() {
           {services.items.map((service) => (
             <article
               key={service.number}
-              className="group flex flex-col justify-between rounded-2xl border border-line bg-background p-6 transition-colors hover:bg-ink hover:text-ink-foreground md:p-7"
+              className="group flex flex-col justify-between rounded-2xl border border-line bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-ink hover:text-ink-foreground md:p-7"
             >
               <div>
-                <p className="text-xs text-muted-foreground group-hover:text-ink-foreground/60">
+                <p className="text-xs font-semibold text-accent">
                   {service.number}
                 </p>
                 <h3 className="mt-5 text-xl font-medium leading-snug tracking-tight">
@@ -60,7 +60,7 @@ export function Services() {
             href={site.contraUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:bg-ink hover:text-ink-foreground"
+            className="inline-flex items-center gap-1 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent hover:bg-accent hover:text-white"
           >
             Discuss your project
             <ArrowUpRight className="size-4" />
